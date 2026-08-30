@@ -1,0 +1,899 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Fatih Soyer — Yazılım Geliştirici</title>
+<meta name="description" content="Fatih Soyer'in kişisel portföy sitesi.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0a0a0c;
+    --bg-soft: #101114;
+    --card: #121317;
+    --card-hover: #17181d;
+    --border: rgba(255, 255, 255, 0.08);
+    --border-hover: rgba(16, 185, 129, 0.45);
+    --text: #e4e4e7;
+    --text-muted: #85868f;
+    --text-dim: #55565e;
+    --accent: #10b981;
+    --accent-dim: rgba(16, 185, 129, 0.12);
+    --dot-color: rgba(255, 255, 255, 0.035);
+  }
+
+  [data-theme="light"] {
+    --bg: #fafafa;
+    --bg-soft: #f2f2f3;
+    --card: #ffffff;
+    --card-hover: #f7f7f8;
+    --border: rgba(0, 0, 0, 0.09);
+    --border-hover: rgba(5, 150, 105, 0.5);
+    --text: #18181b;
+    --text-muted: #6b6c74;
+    --text-dim: #a2a3ab;
+    --accent: #059669;
+    --accent-dim: rgba(5, 150, 105, 0.1);
+    --dot-color: rgba(0, 0, 0, 0.045);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background:
+      radial-gradient(circle at 1px 1px, var(--dot-color) 1px, transparent 0) 0 0/28px 28px,
+      var(--bg);
+    color: var(--text);
+    font-family: 'Space Grotesk', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    line-height: 1.6;
+    transition: background-color 0.3s ease, color 0.3s ease;
+    overflow-x: hidden;
+  }
+
+  .mono { font-family: 'JetBrains Mono', ui-monospace, monospace; }
+
+  .bg-glow {
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    overflow: hidden;
+    pointer-events: none;
+  }
+
+  .bg-glow span {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(90px);
+    opacity: 0.16;
+    background: var(--accent);
+    animation: drift 20s ease-in-out infinite alternate;
+  }
+
+  .bg-glow span:nth-child(1) { width: 420px; height: 420px; top: -140px; left: -100px; }
+  .bg-glow span:nth-child(2) { width: 360px; height: 360px; bottom: -160px; right: -80px; animation-duration: 24s; animation-delay: -6s; }
+  .bg-glow span:nth-child(3) { width: 300px; height: 300px; top: 35%; left: 60%; opacity: 0.08; animation-duration: 28s; animation-delay: -12s; }
+
+  [data-theme="light"] .bg-glow span { opacity: 0.08; }
+  [data-theme="light"] .bg-glow span:nth-child(3) { opacity: 0.05; }
+
+  @keyframes drift {
+    from { transform: translate(0, 0) scale(1); }
+    to   { transform: translate(50px, -36px) scale(1.15); }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .bg-glow span { animation: none; }
+  }
+
+  .reveal {
+    opacity: 0;
+    transform: translateY(18px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+  }
+
+  .reveal.in-view { opacity: 1; transform: none; }
+
+  .container {
+    max-width: 860px;
+    margin: 0 auto;
+    padding: 0 24px;
+  }
+
+  /* Navbar */
+  header.nav {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    backdrop-filter: blur(10px);
+    background: color-mix(in srgb, var(--bg) 75%, transparent);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .nav-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px 24px;
+    max-width: 860px;
+    margin: 0 auto;
+  }
+
+  .logo {
+    font-family: 'JetBrains Mono', monospace;
+    font-weight: 500;
+    font-size: 0.95rem;
+    color: var(--text);
+  }
+
+  .logo .cursor {
+    display: inline-block;
+    color: var(--accent);
+    animation: blink 1.1s step-end infinite;
+  }
+
+  @keyframes blink { 50% { opacity: 0; } }
+
+  .nav-links {
+    display: flex;
+    align-items: center;
+    gap: 28px;
+  }
+
+  .nav-links a {
+    color: var(--text-muted);
+    text-decoration: none;
+    font-size: 0.85rem;
+    font-family: 'JetBrains Mono', monospace;
+    transition: color 0.2s ease;
+  }
+
+  .nav-links a::before {
+    content: "";
+  }
+
+  .nav-links a:hover { color: var(--accent); }
+
+  .nav-links a.active {
+    color: var(--accent);
+  }
+
+  .nav-links a.active::before {
+    content: "● ";
+    font-size: 0.7em;
+  }
+
+  #theme-toggle {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 34px;
+    height: 34px;
+    border-radius: 8px;
+    border: 1px solid var(--border);
+    background: var(--card);
+    cursor: pointer;
+    font-size: 0.95rem;
+    transition: border-color 0.2s ease, transform 0.15s ease;
+  }
+
+  #theme-toggle:hover { border-color: var(--border-hover); }
+  #theme-toggle:active { transform: translateY(1px); }
+
+  /* Hero */
+  .hero { padding: 88px 0 56px; }
+
+  .prompt-line {
+    color: var(--text-dim);
+    font-size: 0.85rem;
+    margin-bottom: 14px;
+  }
+
+  .prompt-line .accent { color: var(--accent); }
+
+  .hero h1 {
+    font-size: clamp(2.1rem, 5vw, 3rem);
+    font-weight: 700;
+    letter-spacing: -0.03em;
+    line-height: 1.15;
+    margin-bottom: 18px;
+  }
+
+  .status-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 12px 6px 10px;
+    border-radius: 999px;
+    border: 1px solid var(--border);
+    background: var(--card);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.78rem;
+    color: var(--text-muted);
+    margin-bottom: 22px;
+  }
+
+  .status-dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: var(--accent);
+    box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.6);
+    animation: pulse 2s ease-out infinite;
+  }
+
+  @keyframes pulse {
+    0%   { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.55); }
+    70%  { box-shadow: 0 0 0 6px rgba(16, 185, 129, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); }
+  }
+
+  .hero p.role {
+    color: var(--text-muted);
+    font-size: 1.02rem;
+    max-width: 520px;
+    margin-bottom: 28px;
+  }
+
+  .tech-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 34px;
+  }
+
+  .tech-badge {
+    padding: 5px 11px;
+    border-radius: 6px;
+    border: 1px solid var(--border);
+    background: var(--card);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.76rem;
+    color: var(--text-muted);
+  }
+
+  .hero-actions {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    align-items: center;
+  }
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 18px;
+    border-radius: 8px;
+    font-weight: 500;
+    font-size: 0.88rem;
+    text-decoration: none;
+    border: 1px solid transparent;
+    cursor: pointer;
+    transition: transform 0.15s ease, border-color 0.2s ease, background 0.2s ease;
+  }
+
+  .btn:hover { transform: translateY(-2px); }
+
+  .btn-primary {
+    background: var(--accent);
+    color: #06110c;
+    font-weight: 600;
+  }
+
+  .btn-primary:hover { background: var(--accent); border-color: var(--accent); filter: brightness(1.08); }
+
+  .btn-ghost {
+    background: var(--card);
+    color: var(--text);
+    border-color: var(--border);
+  }
+
+  .btn-ghost:hover { border-color: var(--border-hover); }
+
+  .btn-mono {
+    font-family: 'JetBrains Mono', monospace;
+  }
+
+  #greet-output {
+    display: block;
+    margin-top: 14px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.85rem;
+    color: var(--accent);
+    opacity: 0;
+    transform: translateY(4px);
+    transition: opacity 0.3s ease, transform 0.3s ease;
+  }
+
+  #greet-output.show { opacity: 1; transform: translateY(0); }
+
+  /* Sections */
+  section { padding: 52px 0; }
+
+  .section-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.78rem;
+    color: var(--accent);
+    margin-bottom: 8px;
+  }
+
+  .section-title {
+    font-size: 1.4rem;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    margin-bottom: 30px;
+  }
+
+  /* About - code window style */
+  .code-window {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    overflow: hidden;
+  }
+
+  .code-window .window-bar {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 11px 16px;
+    border-bottom: 1px solid var(--border);
+    background: var(--bg-soft);
+  }
+
+  .window-dot {
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+    background: var(--border);
+  }
+
+  .window-bar .filename {
+    margin-left: 8px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.78rem;
+    color: var(--text-dim);
+  }
+
+  .code-window .window-body { padding: 26px; }
+
+  .code-window p { color: var(--text-muted); margin-bottom: 14px; font-size: 0.95rem; }
+  .code-window p:last-of-type { margin-bottom: 0; }
+
+  .code-window .comment { color: var(--text-dim); }
+
+  .about-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    margin: 4px 0 20px;
+  }
+
+  .about-list li {
+    position: relative;
+    padding-left: 22px;
+    color: var(--text-muted);
+    font-size: 0.95rem;
+  }
+
+  .about-list li::before {
+    content: "▸";
+    position: absolute;
+    left: 0;
+    top: 0;
+    color: var(--accent);
+    font-family: 'JetBrains Mono', monospace;
+  }
+
+  .about-list strong { color: var(--text); font-weight: 600; }
+
+  .tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 22px;
+    padding-top: 22px;
+    border-top: 1px solid var(--border);
+  }
+
+  .tag {
+    padding: 5px 11px;
+    border-radius: 6px;
+    background: var(--bg-soft);
+    border: 1px solid var(--border);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.76rem;
+    color: var(--accent);
+  }
+
+  /* Projects - bento grid */
+  .projects-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 14px;
+  }
+
+  .project-card {
+    position: relative;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 22px;
+    text-decoration: none;
+    color: var(--text);
+    display: flex;
+    flex-direction: column;
+    transition: border-color 0.2s ease, transform 0.15s ease, background 0.2s ease;
+  }
+
+  .project-card:hover {
+    border-color: var(--border-hover);
+    transform: translateY(-2px);
+    background: var(--card-hover);
+    box-shadow: 0 10px 32px -16px rgba(16, 185, 129, 0.35);
+  }
+
+  .project-card.featured {
+    grid-column: span 3;
+  }
+
+  .project-top {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    margin-bottom: 14px;
+  }
+
+  .project-icon {
+    width: 34px;
+    height: 34px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--accent-dim);
+    color: var(--accent);
+    font-size: 1rem;
+  }
+
+  .project-links {
+    display: flex;
+    gap: 8px;
+  }
+
+  .icon-link {
+    width: 30px;
+    height: 30px;
+    border-radius: 7px;
+    border: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-muted);
+    transition: border-color 0.2s ease, color 0.2s ease;
+  }
+
+  .icon-link:hover { border-color: var(--border-hover); color: var(--accent); }
+  .icon-link svg { width: 15px; height: 15px; }
+
+  .project-card h3 {
+    font-size: 1rem;
+    font-weight: 600;
+    margin-bottom: 6px;
+  }
+
+  .project-card p {
+    color: var(--text-muted);
+    font-size: 0.88rem;
+    margin-bottom: 16px;
+    flex-grow: 1;
+  }
+
+  .project-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+
+  .project-tags span {
+    padding: 3px 9px;
+    border-radius: 5px;
+    background: var(--bg-soft);
+    border: 1px solid var(--border);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.72rem;
+    color: var(--text-dim);
+  }
+
+  @media (max-width: 600px) {
+    .projects-grid { grid-template-columns: 1fr; }
+    .project-card.featured { grid-column: span 1; }
+  }
+
+  /* Contact */
+  .contact-list {
+    display: flex;
+    flex-direction: column;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    overflow: hidden;
+  }
+
+  .social-row {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 16px 20px;
+    background: var(--card);
+    border-bottom: 1px solid var(--border);
+    color: var(--text);
+    text-decoration: none;
+    transition: background 0.2s ease, padding-left 0.2s ease;
+  }
+
+  .contact-list .social-row:last-child { border-bottom: none; }
+
+  .social-row:hover {
+    background: var(--card-hover);
+    padding-left: 26px;
+    box-shadow: inset 0 0 0 1px rgba(16, 185, 129, 0.18);
+  }
+
+  .social-row svg { width: 17px; height: 17px; flex-shrink: 0; color: var(--text-muted); }
+  .social-row:hover svg { color: var(--accent); }
+
+  .social-row .label {
+    font-weight: 500;
+    font-size: 0.92rem;
+    min-width: 90px;
+  }
+
+  .social-row .value {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.82rem;
+    color: var(--text-muted);
+  }
+
+  .social-row .arrow {
+    margin-left: auto;
+    color: var(--text-dim);
+    font-family: 'JetBrains Mono', monospace;
+    transition: transform 0.2s ease, color 0.2s ease;
+  }
+
+  .social-row:hover .arrow { color: var(--accent); transform: translateX(3px); }
+
+  footer {
+    border-top: 1px solid var(--border);
+    padding: 28px 0 44px;
+    text-align: center;
+    color: var(--text-dim);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.78rem;
+  }
+
+  @media (max-width: 560px) {
+    .nav-links { gap: 16px; }
+    .nav-links a { display: none; }
+    .hero { padding: 60px 0 44px; }
+    .social-row .label { min-width: 70px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="bg-glow"><span></span><span></span><span></span></div>
+
+<header class="nav">
+  <div class="nav-inner">
+    <div class="logo">fatih<span class="cursor">_</span>soyer</div>
+    <div class="nav-links">
+      <a href="#about">./about</a>
+      <a href="#projects">./projects</a>
+      <a href="#contact">./contact</a>
+      <button id="theme-toggle" title="Temayı değiştir" aria-label="Temayı değiştir">🌙</button>
+    </div>
+  </div>
+</header>
+
+<main class="container">
+
+  <section class="hero">
+    <p class="prompt-line mono"><span class="accent">$</span> whoami</p>
+    <h1>Fatih Soyer</h1>
+
+    <div class="status-badge">
+      <span class="status-dot"></span>
+      status: available for projects
+    </div>
+
+    <p class="role">Yazılım geliştirici — temiz kod, sade arayüzler ve sürdürülebilir sistemler kuruyorum.</p>
+
+    <div class="tech-row">
+      <span class="tech-badge">Python</span>
+      <span class="tech-badge">Flutter</span>
+      <span class="tech-badge">FastAPI</span>
+      <span class="tech-badge">TypeScript</span>
+      <span class="tech-badge">C++</span>
+      <span class="tech-badge">Docker</span>
+    </div>
+
+    <div class="hero-actions">
+      <a href="#projects" class="btn btn-primary">Projelerimi Gör</a>
+      <a href="#contact" class="btn btn-ghost">İletişime Geç</a>
+      <button id="greet-btn" class="btn btn-ghost btn-mono">$ ./greet.sh</button>
+    </div>
+    <span id="greet-output" class="mono"></span>
+  </section>
+
+  <section id="about">
+    <p class="section-label mono">01 / hakkımda</p>
+    <h2 class="section-title">Hakkımda</h2>
+
+    <div class="code-window reveal">
+      <div class="window-bar">
+        <span class="window-dot"></span>
+        <span class="window-dot"></span>
+        <span class="window-dot"></span>
+        <span class="filename">about.md</span>
+      </div>
+      <div class="window-body">
+        <p>
+          <span class="mono comment">// </span>Merhaba, ben Fatih Soyer. Bursa Uludağ Üniversitesi Bilgisayar
+          Mühendisliği 3. sınıf öğrencisiyim. Yazılım ekosisteminde yeni teknolojiler keşfetmekten, karmaşık
+          problemleri çözmekten ve fikirleri somut, kullanılabilir ürünlere dönüştürmekten büyük keyif alıyorum.
+        </p>
+        <p>
+          <span class="mono comment">// </span>Geliştirme serüvenimde tek bir alana bağlı kalmayıp farklı
+          disiplinlerde kendimi denemeyi ve tecrübe edinmeyi ilke edindim. Bugüne kadarki çalışmalarımda farklı
+          alanlarda yetkinlikler kazandım:
+        </p>
+
+        <ul class="about-list">
+          <li><strong>Mobil &amp; Web Geliştirme</strong> — Flutter ve Dart kullanarak API entegrasyonlu
+            uygulamalar (Fatih Finans) geliştirdim. Ayrıca Python, FastAPI, Flet ve PostgreSQL teknolojilerini
+            kullanarak yapay zeka destekli tam yığın (full-stack) projeler (Ceng Fitness) tasarladım.</li>
+          <li><strong>Otonom Sistemler</strong> — ULUNOM otonom araç projesi yazılım ekibinde yer alarak,
+            TEKNOFEST Robotaksi — Binek Otonom Araç Yarışması Hazır Araç Kategorisi'nde mücadele ettim.
+            Geliştirdiğimiz yazılım mimarisiyle Kritik Tasarım Raporu (KTR) aşamasını başarıyla geçerek sunum
+            değerlendirmesi aşamasına kadar ilerledik. Bu süreçte ROS 2, Gazebo simülasyon ortamı ve sensör
+            füzyonu algoritmaları üzerine yoğun çalışmalar yürüttüm.</li>
+          <li><strong>Oyun Geliştirme &amp; Etkinlik Yönetimi</strong> — Unity ve C# ile çeşitli simülasyon ve
+            oyun projeleri (Salaş Döner Simülasyonu) üretiyorum. Bunun yanında topluluk tarafında da aktif
+            kalarak ULUJAM 2026 yönetim kurulunda yer aldım ve bu kapsamlı Game Jam etkinliğinin organizasyon
+            süreçlerini yürüttüm.</li>
+        </ul>
+
+        <p>
+          <span class="mono comment">// </span>2026 yazında ULUTEK Teknopark bünyesindeki ULUTEK Yazılım Vadisi
+          programında bir aylık yazılım geliştirme stajımı tamamladım. Bu yoğun süreçte hem teknik süreçleri
+          yakından deneyimledim hem de bir proje ekibine liderlik etme fırsatı buldum.
+        </p>
+        <p>
+          <span class="mono comment">// </span>C, C++, C#, Python, Java ve JavaScript gibi farklı programlama
+          dillerindeki yetkinliğimle; her zaman daha optimize, kullanıcı odaklı ve yenilikçi yazılımlar üretmeyi,
+          kendimi sürekli geliştirmeyi hedefliyorum.
+        </p>
+
+        <div class="tags">
+          <span class="tag">#C</span>
+          <span class="tag">#C++</span>
+          <span class="tag">#C#</span>
+          <span class="tag">#Python</span>
+          <span class="tag">#Java</span>
+          <span class="tag">#JavaScript</span>
+          <span class="tag">#ROS2</span>
+          <span class="tag">#Unity</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="projects">
+    <p class="section-label mono">02 / projeler</p>
+    <h2 class="section-title">Projeler</h2>
+
+    <div class="projects-grid">
+
+      <div class="project-card featured reveal">
+        <div class="project-top">
+          <div class="project-icon">⚡</div>
+          <div class="project-links">
+            <a class="icon-link" href="https://github.com/fatihsoyer9008/CENGFITNESS" target="_blank" rel="noopener" aria-label="GitHub repo">
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 .5C5.73.5.5 5.73.5 12c0 5.08 3.29 9.39 7.86 10.91.57.1.78-.25.78-.55 0-.27-.01-1.16-.02-2.11-3.2.7-3.88-1.36-3.88-1.36-.52-1.33-1.28-1.68-1.28-1.68-1.04-.72.08-.7.08-.7 1.15.08 1.76 1.19 1.76 1.19 1.03 1.76 2.7 1.25 3.36.96.1-.75.4-1.25.73-1.54-2.55-.29-5.24-1.28-5.24-5.7 0-1.26.45-2.29 1.19-3.09-.12-.29-.52-1.47.11-3.06 0 0 .97-.31 3.18 1.18a11 11 0 0 1 5.79 0c2.2-1.49 3.17-1.18 3.17-1.18.64 1.59.24 2.77.12 3.06.74.8 1.18 1.83 1.18 3.09 0 4.43-2.7 5.4-5.27 5.69.42.36.78 1.07.78 2.15 0 1.56-.02 2.81-.02 3.19 0 .3.2.66.79.55A10.52 10.52 0 0 0 23.5 12C23.5 5.73 18.27.5 12 .5Z"/></svg>
+            </a>
+          </div>
+        </div>
+        <h3>CENG FITNESS</h3>
+        <p>Yemek fotoğrafını YOLO ile tanıyıp Gemini AI ile kalori/makro hesaplayan; egzersiz, kas gelişimi ve vücut ölçülerini takip eden AI destekli fitness uygulaması.</p>
+        <div class="project-tags">
+          <span>Python</span>
+          <span>FastAPI</span>
+          <span>YOLO</span>
+          <span>Gemini AI</span>
+        </div>
+      </div>
+
+      <div class="project-card reveal">
+        <div class="project-top">
+          <div class="project-icon">▤</div>
+          <div class="project-links">
+            <a class="icon-link" href="https://github.com/fatihsoyer9008/Cengello" target="_blank" rel="noopener" aria-label="GitHub repo">
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 .5C5.73.5.5 5.73.5 12c0 5.08 3.29 9.39 7.86 10.91.57.1.78-.25.78-.55 0-.27-.01-1.16-.02-2.11-3.2.7-3.88-1.36-3.88-1.36-.52-1.33-1.28-1.68-1.28-1.68-1.04-.72.08-.7.08-.7 1.15.08 1.76 1.19 1.76 1.19 1.03 1.76 2.7 1.25 3.36.96.1-.75.4-1.25.73-1.54-2.55-.29-5.24-1.28-5.24-5.7 0-1.26.45-2.29 1.19-3.09-.12-.29-.52-1.47.11-3.06 0 0 .97-.31 3.18 1.18a11 11 0 0 1 5.79 0c2.2-1.49 3.17-1.18 3.17-1.18.64 1.59.24 2.77.12 3.06.74.8 1.18 1.83 1.18 3.09 0 4.43-2.7 5.4-5.27 5.69.42.36.78 1.07.78 2.15 0 1.56-.02 2.81-.02 3.19 0 .3.2.66.79.55A10.52 10.52 0 0 0 23.5 12C23.5 5.73 18.27.5 12 .5Z"/></svg>
+            </a>
+          </div>
+        </div>
+        <h3>Cengello</h3>
+        <p>Self-hosted bir Trello klonu — sürükle-bırak kanban panoları, checklist'ler ve canlı aktivite akışı. Docker Compose ile tek komutla ayağa kalkıyor.</p>
+        <div class="project-tags">
+          <span>Next.js</span>
+          <span>FastAPI</span>
+          <span>PostgreSQL</span>
+        </div>
+      </div>
+
+      <div class="project-card reveal">
+        <div class="project-top">
+          <div class="project-icon">▣</div>
+          <div class="project-links">
+            <a class="icon-link" href="https://github.com/fatihsoyer9008/FalconIDS" target="_blank" rel="noopener" aria-label="GitHub repo">
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 .5C5.73.5.5 5.73.5 12c0 5.08 3.29 9.39 7.86 10.91.57.1.78-.25.78-.55 0-.27-.01-1.16-.02-2.11-3.2.7-3.88-1.36-3.88-1.36-.52-1.33-1.28-1.68-1.28-1.68-1.04-.72.08-.7.08-.7 1.15.08 1.76 1.19 1.76 1.19 1.03 1.76 2.7 1.25 3.36.96.1-.75.4-1.25.73-1.54-2.55-.29-5.24-1.28-5.24-5.7 0-1.26.45-2.29 1.19-3.09-.12-.29-.52-1.47.11-3.06 0 0 .97-.31 3.18 1.18a11 11 0 0 1 5.79 0c2.2-1.49 3.17-1.18 3.17-1.18.64 1.59.24 2.77.12 3.06.74.8 1.18 1.83 1.18 3.09 0 4.43-2.7 5.4-5.27 5.69.42.36.78 1.07.78 2.15 0 1.56-.02 2.81-.02 3.19 0 .3.2.66.79.55A10.52 10.52 0 0 0 23.5 12C23.5 5.73 18.27.5 12 .5Z"/></svg>
+            </a>
+          </div>
+        </div>
+        <h3>FalconIDS</h3>
+        <p>C++17 ve libpcap ile yazılmış, ağ trafiğini dinleyip port taraması gibi şüpheli davranışları gerçek zamanlı tespit eden bir IDS/sniffer aracı.</p>
+        <div class="project-tags">
+          <span>C++</span>
+          <span>libpcap</span>
+          <span>CMake</span>
+        </div>
+      </div>
+
+      <div class="project-card reveal">
+        <div class="project-top">
+          <div class="project-icon">◇</div>
+          <div class="project-links">
+            <a class="icon-link" href="https://github.com/fatihsoyer9008/Ulutekproje" target="_blank" rel="noopener" aria-label="GitHub repo">
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 .5C5.73.5.5 5.73.5 12c0 5.08 3.29 9.39 7.86 10.91.57.1.78-.25.78-.55 0-.27-.01-1.16-.02-2.11-3.2.7-3.88-1.36-3.88-1.36-.52-1.33-1.28-1.68-1.28-1.68-1.04-.72.08-.7.08-.7 1.15.08 1.76 1.19 1.76 1.19 1.03 1.76 2.7 1.25 3.36.96.1-.75.4-1.25.73-1.54-2.55-.29-5.24-1.28-5.24-5.7 0-1.26.45-2.29 1.19-3.09-.12-.29-.52-1.47.11-3.06 0 0 .97-.31 3.18 1.18a11 11 0 0 1 5.79 0c2.2-1.49 3.17-1.18 3.17-1.18.64 1.59.24 2.77.12 3.06.74.8 1.18 1.83 1.18 3.09 0 4.43-2.7 5.4-5.27 5.69.42.36.78 1.07.78 2.15 0 1.56-.02 2.81-.02 3.19 0 .3.2.66.79.55A10.52 10.52 0 0 0 23.5 12C23.5 5.73 18.27.5 12 .5Z"/></svg>
+            </a>
+          </div>
+        </div>
+        <h3>EconBuddy <span class="mono" style="color:var(--text-dim); font-size:0.75rem; font-weight:400;">— Ulutek stajı</span></h3>
+        <p>Ulutek'teki stajım sırasında geliştirdiğim; fiş fotoğrafını OCR + Gemini AI ile otomatik harcamaya çeviren kişisel finans ve grup harcama uygulaması.</p>
+        <div class="project-tags">
+          <span>Flutter</span>
+          <span>FastAPI</span>
+          <span>Gemini AI</span>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <section id="contact">
+    <p class="section-label mono">03 / iletişim</p>
+    <h2 class="section-title">İletişim</h2>
+
+    <div class="contact-list reveal">
+      <a class="social-row" href="https://github.com/fatihsoyer9008" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 .5C5.73.5.5 5.73.5 12c0 5.08 3.29 9.39 7.86 10.91.57.1.78-.25.78-.55 0-.27-.01-1.16-.02-2.11-3.2.7-3.88-1.36-3.88-1.36-.52-1.33-1.28-1.68-1.28-1.68-1.04-.72.08-.7.08-.7 1.15.08 1.76 1.19 1.76 1.19 1.03 1.76 2.7 1.25 3.36.96.1-.75.4-1.25.73-1.54-2.55-.29-5.24-1.28-5.24-5.7 0-1.26.45-2.29 1.19-3.09-.12-.29-.52-1.47.11-3.06 0 0 .97-.31 3.18 1.18a11 11 0 0 1 5.79 0c2.2-1.49 3.17-1.18 3.17-1.18.64 1.59.24 2.77.12 3.06.74.8 1.18 1.83 1.18 3.09 0 4.43-2.7 5.4-5.27 5.69.42.36.78 1.07.78 2.15 0 1.56-.02 2.81-.02 3.19 0 .3.2.66.79.55A10.52 10.52 0 0 0 23.5 12C23.5 5.73 18.27.5 12 .5Z"/></svg>
+        <span class="label">GitHub</span>
+        <span class="value">@fatihsoyer9008</span>
+        <span class="arrow mono">→</span>
+      </a>
+      <a class="social-row" href="https://www.linkedin.com/in/fatih-soyer-62a140323/" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.45 20.45h-3.55v-5.57c0-1.33-.02-3.04-1.85-3.04-1.85 0-2.14 1.45-2.14 2.94v5.67H9.36V9h3.41v1.56h.05c.47-.9 1.63-1.85 3.36-1.85 3.6 0 4.27 2.37 4.27 5.45v6.29ZM5.34 7.43a2.06 2.06 0 1 1 0-4.12 2.06 2.06 0 0 1 0 4.12ZM7.11 20.45H3.56V9h3.55v11.45ZM22.22 0H1.77C.8 0 0 .78 0 1.75v20.5C0 23.22.8 24 1.77 24h20.45c.98 0 1.78-.78 1.78-1.75V1.75C24 .78 23.2 0 22.22 0Z"/></svg>
+        <span class="label">LinkedIn</span>
+        <span class="value">/in/fatih-soyer</span>
+        <span class="arrow mono">→</span>
+      </a>
+      <a class="social-row" href="mailto:soyerf18@gmail.com">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2Zm0 4-8 5-8-5V6l8 5 8-5v2Z"/></svg>
+        <span class="label">E-posta</span>
+        <span class="value">soyerf18@gmail.com</span>
+        <span class="arrow mono">→</span>
+      </a>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <p>$ echo "© <span id="year"></span> Fatih Soyer — tüm hakları saklıdır"</p>
+</footer>
+
+<script>
+  // Tema değiştirici
+  const root = document.documentElement;
+  const themeToggle = document.getElementById('theme-toggle');
+
+  function getStoredTheme() {
+    try { return localStorage.getItem('theme'); } catch (e) { return null; }
+  }
+
+  function storeTheme(theme) {
+    try { localStorage.setItem('theme', theme); } catch (e) { /* ignore */ }
+  }
+
+  function applyTheme(theme) {
+    if (theme === 'light') {
+      root.setAttribute('data-theme', 'light');
+      themeToggle.textContent = '☀️';
+    } else {
+      root.removeAttribute('data-theme');
+      themeToggle.textContent = '🌙';
+    }
+  }
+
+  applyTheme(getStoredTheme() || 'dark');
+
+  themeToggle.addEventListener('click', () => {
+    const isLight = root.getAttribute('data-theme') === 'light';
+    const next = isLight ? 'dark' : 'light';
+    applyTheme(next);
+    storeTheme(next);
+  });
+
+  // Terminal selamlama
+  const greetBtn = document.getElementById('greet-btn');
+  const greetOutput = document.getElementById('greet-output');
+  const greetings = [
+    '> Merhaba! Uğradığın için teşekkürler',
+    '> Selam! Umarım harika bir gün geçiriyorsundur',
+    '> Hey! Beraber harika şeyler inşa edelim',
+    '> console.log("merhaba dünya, ve tabii ki sen")'
+  ];
+
+  greetBtn.addEventListener('click', () => {
+    const msg = greetings[Math.floor(Math.random() * greetings.length)];
+    greetOutput.textContent = msg;
+    greetOutput.classList.remove('show');
+    void greetOutput.offsetWidth;
+    greetOutput.classList.add('show');
+  });
+
+  document.getElementById('year').textContent = new Date().getFullYear();
+
+  // Nav'da aktif bölümü işaretle (scrollspy)
+  const navLinks = document.querySelectorAll('.nav-links a[href^="#"]');
+  const navSections = document.querySelectorAll('main section[id]');
+
+  if ('IntersectionObserver' in window && navLinks.length && navSections.length) {
+    const spyObserver = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (!entry.isIntersecting) return;
+        navLinks.forEach((link) => {
+          link.classList.toggle('active', link.getAttribute('href') === `#${entry.target.id}`);
+        });
+      });
+    }, { rootMargin: '-45% 0px -45% 0px', threshold: 0 });
+
+    navSections.forEach((sec) => spyObserver.observe(sec));
+  }
+
+  // Scroll'da belirme animasyonu
+  const revealEls = document.querySelectorAll('.reveal');
+  if ('IntersectionObserver' in window) {
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('in-view');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.15, rootMargin: '0px 0px -40px 0px' });
+
+    revealEls.forEach((el) => observer.observe(el));
+  } else {
+    revealEls.forEach((el) => el.classList.add('in-view'));
+  }
+</script>
+
+</body>
+</html>

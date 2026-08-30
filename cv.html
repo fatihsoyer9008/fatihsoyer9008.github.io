@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Fatih Soyer — CV</title>
+<style>
+  :root {
+    --accent: #0f9d68;
+    --text: #1a1a1a;
+    --muted: #55585e;
+    --border: #dfe2e6;
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    margin: 0;
+    background: #ececec;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif;
+    color: var(--text);
+  }
+
+  .toolbar {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    padding: 14px;
+    background: #2b2d31;
+  }
+
+  .toolbar button {
+    font-family: inherit;
+    font-size: 0.85rem;
+    font-weight: 600;
+    padding: 9px 18px;
+    border-radius: 7px;
+    border: 1px solid #454850;
+    background: var(--accent);
+    color: #fff;
+    cursor: pointer;
+  }
+
+  .toolbar span {
+    color: #b3b6bd;
+    font-size: 0.8rem;
+    align-self: center;
+  }
+
+  .page {
+    max-width: 800px;
+    margin: 24px auto 60px;
+    background: #fff;
+    padding: 46px 52px;
+    box-shadow: 0 4px 24px rgba(0,0,0,0.18);
+    line-height: 1.45;
+  }
+
+  .cv-header { margin-bottom: 18px; text-align: center; }
+
+  .cv-header h1 {
+    margin: 0 0 2px;
+    font-size: 1.9rem;
+    letter-spacing: 0.01em;
+    color: var(--accent);
+  }
+
+  .cv-title {
+    font-size: 0.98rem;
+    font-weight: 600;
+    color: var(--text);
+    margin-bottom: 8px;
+  }
+
+  .cv-contact {
+    font-size: 0.83rem;
+    color: var(--muted);
+  }
+
+  .cv-contact a { color: var(--muted); text-decoration: none; }
+  .cv-contact a:hover { text-decoration: underline; }
+
+  .summary {
+    font-size: 0.88rem;
+    color: #333;
+    margin: 16px 0 22px;
+  }
+
+  h2.section {
+    font-size: 0.78rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--accent);
+    border-bottom: 1.5px solid var(--border);
+    padding-bottom: 4px;
+    margin: 22px 0 12px;
+  }
+
+  .entry { margin-bottom: 14px; }
+  .entry:last-child { margin-bottom: 0; }
+
+  .entry-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+
+  .entry-org {
+    font-weight: 700;
+    font-size: 0.9rem;
+  }
+
+  .entry-role {
+    font-weight: 600;
+    font-size: 0.87rem;
+    color: #2a2a2a;
+  }
+
+  .entry-meta {
+    font-size: 0.78rem;
+    color: var(--muted);
+    white-space: nowrap;
+  }
+
+  ul.bullets {
+    margin: 4px 0 0;
+    padding-left: 18px;
+  }
+
+  ul.bullets li {
+    font-size: 0.83rem;
+    color: #333;
+    margin-bottom: 2px;
+  }
+
+  .stack-line {
+    font-size: 0.78rem;
+    font-style: italic;
+    color: var(--muted);
+    margin-top: 3px;
+  }
+
+  .proj-link {
+    font-size: 0.76rem;
+    font-weight: 400;
+    color: var(--muted);
+  }
+
+  .skills-grid p {
+    font-size: 0.83rem;
+    margin: 3px 0;
+  }
+
+  .skills-grid strong { color: var(--text); }
+
+  @media print {
+    body { background: #fff; }
+    .toolbar { display: none; }
+    .page {
+      margin: 0;
+      box-shadow: none;
+      padding: 0;
+      max-width: none;
+    }
+    @page { size: A4; margin: 16mm 18mm; }
+  }
+</style>
+</head>
+<body>
+
+<div class="toolbar">
+  <button onclick="window.print()">PDF olarak kaydet / Yazdır</button>
+  <span>Ctrl+P → "PDF olarak kaydet"</span>
+</div>
+
+<div class="page">
+
+  <div class="cv-header">
+    <h1>Fatih Soyer</h1>
+    <div class="cv-title">Bilgisayar Mühendisliği Öğrencisi | Full-Stack &amp; AI Destekli Uygulama Geliştirici</div>
+    <div class="cv-contact">
+      Bursa, Türkiye • +90 551 020 38 35 • soyerf18@gmail.com •
+      <a href="https://linkedin.com/in/fatih-soyer-62a140323" target="_blank">linkedin.com/in/fatih-soyer</a> •
+      <a href="https://github.com/fatihsoyer9008" target="_blank">github.com/fatihsoyer9008</a>
+    </div>
+  </div>
+
+  <p class="summary">
+    Bursa Uludağ Üniversitesi Bilgisayar Mühendisliği 3. sınıf öğrencisiyim. Flutter, FastAPI ve yapay zeka
+    modelleri (YOLO, Gemini AI) kullanarak uçtan uca full-stack uygulamalar geliştiriyorum. Otonom sistemler,
+    robotik simülasyon ve ağ güvenliği gibi farklı disiplinlerde proje deneyimine sahibim. Temiz kod, kullanıcı
+    odaklı tasarım ve sürekli öğrenme ilkeleriyle çalışıyorum.
+  </p>
+
+  <h2 class="section">İş Deneyimi</h2>
+  <div class="entry">
+    <div class="entry-row">
+      <span class="entry-org">ULUTEK Teknopark — ULUTEK Yazılım Vadisi</span>
+      <span class="entry-meta">Bursa, Türkiye • Yaz 2026 (1 ay)</span>
+    </div>
+    <div class="entry-role">Yazılım Geliştirme Stajyeri</div>
+    <ul class="bullets">
+      <li>Fiş fotoğraflarını Google ML Kit (OCR) ve Gemini AI ile otomatik olarak harcama kaydına dönüştüren bir özellik geliştirdi.</li>
+      <li>Flutter tabanlı mobil uygulama ile FastAPI backend'i arasında uçtan uca entegrasyon üzerinde çalıştı.</li>
+      <li>Bir proje ekibine liderlik etme fırsatı bularak teknik süreçleri yakından deneyimledi.</li>
+    </ul>
+  </div>
+
+  <h2 class="section">Eğitim</h2>
+  <div class="entry">
+    <div class="entry-row">
+      <span class="entry-org">Bursa Uludağ Üniversitesi</span>
+      <span class="entry-meta">Bursa, Türkiye • 2024 - Devam ediyor</span>
+    </div>
+    <div class="entry-role">Bilgisayar Mühendisliği (Lisans) — 3. Sınıf</div>
+    <div class="stack-line">GANO: 3.07 / 4.00</div>
+  </div>
+
+  <h2 class="section">Liderlik &amp; Topluluğa Katkı</h2>
+  <div class="entry">
+    <div class="entry-row">
+      <span class="entry-org">ULUNOM Otonom Araç Takımı</span>
+      <span class="entry-meta">TEKNOFEST Robotaksi — Binek Otonom Araç</span>
+    </div>
+    <div class="entry-role">Yazılım Ekibi Üyesi</div>
+    <ul class="bullets">
+      <li>ROS 2, Gazebo simülasyon ortamı ve sensör füzyonu algoritmaları üzerine çalıştı.</li>
+      <li>Geliştirilen yazılım mimarisiyle Kritik Tasarım Raporu (KTR) aşamasını başarıyla geçerek sunum değerlendirmesi aşamasına ilerledi.</li>
+    </ul>
+  </div>
+  <div class="entry">
+    <div class="entry-row">
+      <span class="entry-org">ULUJAM</span>
+      <span class="entry-meta">2026</span>
+    </div>
+    <div class="entry-role">Yönetim Kurulu Üyesi</div>
+    <ul class="bullets">
+      <li>Kapsamlı bir Game Jam etkinliğinin organizasyon süreçlerini yürüttü.</li>
+    </ul>
+  </div>
+
+  <h2 class="section">Projeler</h2>
+
+  <div class="entry">
+    <div class="entry-row">
+      <span class="entry-org">CENG FITNESS <span class="proj-link">— github.com/fatihsoyer9008/CENGFITNESS</span></span>
+    </div>
+    <ul class="bullets">
+      <li>Yemek fotoğrafını YOLO ile tanıyıp Gemini AI ile kalori/makro hesaplayan; egzersiz, kas gelişimi ve vücut ölçülerini takip eden AI destekli fitness uygulaması.</li>
+    </ul>
+    <div class="stack-line">Python, FastAPI, YOLO, Gemini AI</div>
+  </div>
+
+  <div class="entry">
+    <div class="entry-row">
+      <span class="entry-org">Cengello <span class="proj-link">— github.com/fatihsoyer9008/Cengello</span></span>
+    </div>
+    <ul class="bullets">
+      <li>Self-hosted bir Trello klonu; sürükle-bırak kanban panoları, checklist'ler ve canlı aktivite akışı. Docker Compose ile tek komutla ayağa kalkıyor.</li>
+    </ul>
+    <div class="stack-line">Next.js, FastAPI, PostgreSQL, Docker</div>
+  </div>
+
+  <div class="entry">
+    <div class="entry-row">
+      <span class="entry-org">FalconIDS <span class="proj-link">— github.com/fatihsoyer9008/FalconIDS</span></span>
+    </div>
+    <ul class="bullets">
+      <li>C++17 ve libpcap ile yazılmış, ağ trafiğini dinleyip port taraması gibi şüpheli davranışları gerçek zamanlı tespit eden bir IDS/sniffer aracı.</li>
+    </ul>
+    <div class="stack-line">C++, libpcap, CMake</div>
+  </div>
+
+  <div class="entry">
+    <div class="entry-row">
+      <span class="entry-org">EconBuddy <span class="proj-link">— github.com/fatihsoyer9008/Ulutekproje</span></span>
+    </div>
+    <ul class="bullets">
+      <li>Fiş fotoğrafını OCR + Gemini AI ile otomatik harcamaya çeviren kişisel finans ve grup harcama uygulaması (ULUTEK staj projesi).</li>
+    </ul>
+    <div class="stack-line">Flutter, FastAPI, Gemini AI, OCR</div>
+  </div>
+
+  <h2 class="section">Yetenekler</h2>
+  <div class="skills-grid">
+    <p><strong>Diller:</strong> C, C++, C#, Python, Java, JavaScript, Dart</p>
+    <p><strong>Frameworkler &amp; Web:</strong> Flutter, FastAPI, Next.js, Flet</p>
+    <p><strong>Veri &amp; Yapay Zeka:</strong> YOLO, Gemini AI, OpenCV, Google ML Kit</p>
+    <p><strong>Robotik &amp; Simülasyon:</strong> ROS 2, Gazebo</p>
+    <p><strong>Araçlar &amp; Altyapı:</strong> Docker, Git, PostgreSQL, Linux, CMake</p>
+  </div>
+
+</div>
+
+</body>
+</html>

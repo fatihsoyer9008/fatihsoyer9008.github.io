@@ -103,23 +103,35 @@
     padding: 0 24px;
   }
 
-  /* Navbar */
+  /* Navbar — floating pill */
   header.nav {
-    position: sticky;
-    top: 0;
+    position: fixed;
+    top: 18px;
+    left: 50%;
+    transform: translateX(-50%);
     z-index: 50;
-    backdrop-filter: blur(10px);
-    background: color-mix(in srgb, var(--bg) 75%, transparent);
-    border-bottom: 1px solid var(--border);
+    width: max-content;
+    max-width: calc(100vw - 32px);
   }
 
   .nav-inner {
     display: flex;
     align-items: center;
-    justify-content: space-between;
-    padding: 16px 24px;
-    max-width: 860px;
-    margin: 0 auto;
+    gap: 22px;
+    padding: 9px 14px 9px 20px;
+    border-radius: 999px;
+    border: 1px solid var(--border);
+    background: color-mix(in srgb, var(--bg) 68%, transparent);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    box-shadow: 0 12px 32px -14px rgba(0, 0, 0, 0.55);
+  }
+
+  .nav-divider {
+    width: 1px;
+    height: 16px;
+    background: var(--border);
+    flex-shrink: 0;
   }
 
   .logo {
@@ -140,7 +152,7 @@
   .nav-links {
     display: flex;
     align-items: center;
-    gap: 28px;
+    gap: 18px;
   }
 
   .nav-links a {
@@ -170,13 +182,14 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 34px;
-    height: 34px;
-    border-radius: 8px;
+    width: 30px;
+    height: 30px;
+    border-radius: 999px;
     border: 1px solid var(--border);
     background: var(--card);
     cursor: pointer;
-    font-size: 0.95rem;
+    font-size: 0.9rem;
+    flex-shrink: 0;
     transition: border-color 0.2s ease, transform 0.15s ease;
   }
 
@@ -313,6 +326,7 @@
 
   /* Sections */
   section { padding: 52px 0; }
+  section[id] { scroll-margin-top: 96px; }
 
   .section-label {
     font-family: 'JetBrains Mono', monospace;
@@ -366,49 +380,42 @@
 
   .code-window .comment { color: var(--text-dim); }
 
-  .about-list {
-    list-style: none;
-    display: flex;
-    flex-direction: column;
-    gap: 14px;
-    margin: 4px 0 20px;
-  }
-
-  .about-list li {
-    position: relative;
-    padding-left: 22px;
-    color: var(--text-muted);
-    font-size: 0.95rem;
-  }
-
-  .about-list li::before {
-    content: "▸";
-    position: absolute;
-    left: 0;
-    top: 0;
-    color: var(--accent);
-    font-family: 'JetBrains Mono', monospace;
-  }
-
-  .about-list strong { color: var(--text); font-weight: 600; }
-
-  .tags {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 8px;
-    margin-top: 22px;
-    padding-top: 22px;
+  /* Skills */
+  .skill-category {
+    padding: 18px 0;
     border-top: 1px solid var(--border);
   }
 
-  .tag {
-    padding: 5px 11px;
-    border-radius: 6px;
-    background: var(--bg-soft);
-    border: 1px solid var(--border);
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 0.76rem;
+  .skill-category:first-child {
+    padding-top: 0;
+    border-top: none;
+  }
+
+  .skill-category:last-child { padding-bottom: 0; }
+
+  .skill-cat-head {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    margin-bottom: 14px;
+  }
+
+  .skill-cat-name {
     color: var(--accent);
+    font-size: 0.78rem;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+
+  .skill-cat-count {
+    color: var(--text-dim);
+    font-size: 0.78rem;
+  }
+
+  .skill-pills {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
   }
 
   /* Projects - bento grid */
@@ -481,6 +488,15 @@
   .icon-link:hover { border-color: var(--border-hover); color: var(--accent); }
   .icon-link svg { width: 15px; height: 15px; }
 
+  .project-label {
+    display: block;
+    font-size: 0.68rem;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--text-dim);
+    margin-bottom: 8px;
+  }
+
   .project-card h3 {
     font-size: 1rem;
     font-weight: 600;
@@ -515,7 +531,142 @@
     .project-card.featured { grid-column: span 1; }
   }
 
+  /* Experience */
+  .experience-list {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+
+  .experience-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 24px;
+    transition: border-color 0.2s ease, transform 0.15s ease;
+  }
+
+  .experience-card:hover {
+    border-color: var(--border-hover);
+    transform: translateY(-2px);
+  }
+
+  .experience-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 16px;
+    margin-bottom: 12px;
+  }
+
+  .experience-head {
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+  }
+
+  .experience-head h3 {
+    font-size: 1rem;
+    font-weight: 600;
+    margin-bottom: 2px;
+  }
+
+  .experience-org {
+    color: var(--accent);
+    font-size: 0.85rem;
+    font-weight: 500;
+  }
+
+  .experience-meta {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.76rem;
+    color: var(--text-dim);
+    text-align: right;
+    white-space: nowrap;
+    line-height: 1.5;
+    flex-shrink: 0;
+  }
+
+  .experience-card p.experience-desc {
+    color: var(--text-muted);
+    font-size: 0.9rem;
+    margin-bottom: 14px;
+  }
+
+  @media (max-width: 560px) {
+    .experience-top { flex-direction: column; }
+    .experience-meta { text-align: left; }
+  }
+
+  /* Achievements */
+  .badges-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 14px;
+  }
+
+  .badge-card {
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 20px;
+    transition: border-color 0.2s ease, transform 0.15s ease;
+  }
+
+  .badge-card:hover {
+    border-color: var(--border-hover);
+    transform: translateY(-2px);
+  }
+
+  .badge-card h3 {
+    font-size: 0.92rem;
+    font-weight: 600;
+    margin-bottom: 4px;
+  }
+
+  .badge-meta {
+    color: var(--text-muted);
+    font-size: 0.8rem;
+    margin-bottom: 10px;
+  }
+
+  .badge-tag {
+    display: inline-block;
+    padding: 3px 9px;
+    border-radius: 5px;
+    background: var(--bg-soft);
+    border: 1px solid var(--border);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem;
+    color: var(--accent);
+  }
+
+  @media (max-width: 700px) {
+    .badges-grid { grid-template-columns: 1fr; }
+  }
+
+  /* Services */
+  .services-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 14px;
+  }
+
+  @media (max-width: 700px) {
+    .services-grid { grid-template-columns: 1fr; }
+  }
+
   /* Contact */
+  .contact-lead {
+    color: var(--text-muted);
+    font-size: 0.95rem;
+    margin-top: -22px;
+    margin-bottom: 28px;
+  }
+
   .contact-list {
     display: flex;
     flex-direction: column;
@@ -578,8 +729,8 @@
   }
 
   @media (max-width: 560px) {
-    .nav-links { gap: 16px; }
-    .nav-links a { display: none; }
+    .nav-links, .nav-divider { display: none; }
+    .nav-inner { gap: 12px; padding: 8px 10px 8px 16px; }
     .hero { padding: 60px 0 44px; }
     .social-row .label { min-width: 70px; }
   }
@@ -592,12 +743,16 @@
 <header class="nav">
   <div class="nav-inner">
     <div class="logo">fatih<span class="cursor">_</span>soyer</div>
+    <span class="nav-divider"></span>
     <div class="nav-links">
       <a href="#about">./about</a>
+      <a href="#skills">./skills</a>
+      <a href="#experience">./deneyim</a>
       <a href="#projects">./projects</a>
       <a href="#contact">./contact</a>
-      <button id="theme-toggle" title="Temayı değiştir" aria-label="Temayı değiştir">🌙</button>
     </div>
+    <span class="nav-divider"></span>
+    <button id="theme-toggle" title="Temayı değiştir" aria-label="Temayı değiştir">🌙</button>
   </div>
 </header>
 
@@ -613,15 +768,6 @@
     </div>
 
     <p class="role">Yazılım geliştirici — temiz kod, sade arayüzler ve sürdürülebilir sistemler kuruyorum.</p>
-
-    <div class="tech-row">
-      <span class="tech-badge">Python</span>
-      <span class="tech-badge">Flutter</span>
-      <span class="tech-badge">FastAPI</span>
-      <span class="tech-badge">TypeScript</span>
-      <span class="tech-badge">C++</span>
-      <span class="tech-badge">Docker</span>
-    </div>
 
     <div class="hero-actions">
       <a href="#projects" class="btn btn-primary">Projelerimi Gör</a>
@@ -650,52 +796,205 @@
         </p>
         <p>
           <span class="mono comment">// </span>Geliştirme serüvenimde tek bir alana bağlı kalmayıp farklı
-          disiplinlerde kendimi denemeyi ve tecrübe edinmeyi ilke edindim. Bugüne kadarki çalışmalarımda farklı
-          alanlarda yetkinlikler kazandım:
-        </p>
-
-        <ul class="about-list">
-          <li><strong>Mobil &amp; Web Geliştirme</strong> — Flutter ve Dart kullanarak API entegrasyonlu
-            uygulamalar (Fatih Finans) geliştirdim. Ayrıca Python, FastAPI, Flet ve PostgreSQL teknolojilerini
-            kullanarak yapay zeka destekli tam yığın (full-stack) projeler (Ceng Fitness) tasarladım.</li>
-          <li><strong>Otonom Sistemler</strong> — ULUNOM otonom araç projesi yazılım ekibinde yer alarak,
-            TEKNOFEST Robotaksi — Binek Otonom Araç Yarışması Hazır Araç Kategorisi'nde mücadele ettim.
-            Geliştirdiğimiz yazılım mimarisiyle Kritik Tasarım Raporu (KTR) aşamasını başarıyla geçerek sunum
-            değerlendirmesi aşamasına kadar ilerledik. Bu süreçte ROS 2, Gazebo simülasyon ortamı ve sensör
-            füzyonu algoritmaları üzerine yoğun çalışmalar yürüttüm.</li>
-          <li><strong>Oyun Geliştirme &amp; Etkinlik Yönetimi</strong> — Unity ve C# ile çeşitli simülasyon ve
-            oyun projeleri (Salaş Döner Simülasyonu) üretiyorum. Bunun yanında topluluk tarafında da aktif
-            kalarak ULUJAM 2026 yönetim kurulunda yer aldım ve bu kapsamlı Game Jam etkinliğinin organizasyon
-            süreçlerini yürüttüm.</li>
-        </ul>
-
-        <p>
-          <span class="mono comment">// </span>2026 yazında ULUTEK Teknopark bünyesindeki ULUTEK Yazılım Vadisi
-          programında bir aylık yazılım geliştirme stajımı tamamladım. Bu yoğun süreçte hem teknik süreçleri
-          yakından deneyimledim hem de bir proje ekibine liderlik etme fırsatı buldum.
+          disiplinlerde kendimi denemeyi ve tecrübe edinmeyi ilke edindim; mobil ve web geliştirmeden otonom
+          sistemlere, oyun geliştirmeden etkinlik yönetimine kadar birçok alanda yer aldım
+          <em>(detaylar aşağıda — deneyim bölümünde)</em>.
         </p>
         <p>
           <span class="mono comment">// </span>C, C++, C#, Python, Java ve JavaScript gibi farklı programlama
           dillerindeki yetkinliğimle; her zaman daha optimize, kullanıcı odaklı ve yenilikçi yazılımlar üretmeyi,
           kendimi sürekli geliştirmeyi hedefliyorum.
         </p>
+      </div>
+    </div>
 
-        <div class="tags">
-          <span class="tag">#C</span>
-          <span class="tag">#C++</span>
-          <span class="tag">#C#</span>
-          <span class="tag">#Python</span>
-          <span class="tag">#Java</span>
-          <span class="tag">#JavaScript</span>
-          <span class="tag">#ROS2</span>
-          <span class="tag">#Unity</span>
+    <div class="experience-list" style="margin-top: 14px;">
+      <div class="experience-card reveal">
+        <div class="experience-top">
+          <div class="experience-head">
+            <div class="project-icon">■</div>
+            <div>
+              <h3>Bilgisayar Mühendisliği</h3>
+              <span class="experience-org">Bursa Uludağ Üniversitesi</span>
+            </div>
+          </div>
+          <div class="experience-meta">Bursa, Türkiye<br>3. Sınıf · Devam ediyor</div>
         </div>
+        <p class="experience-desc">Yazılım mühendisliği temelleri, algoritmalar ve sistem tasarımı üzerine eğitim alıyorum.</p>
       </div>
     </div>
   </section>
 
+  <section id="skills">
+    <p class="section-label mono">02 / beceriler</p>
+    <h2 class="section-title">Beceriler &amp; Teknolojiler</h2>
+
+    <div class="code-window reveal">
+      <div class="window-bar">
+        <span class="window-dot"></span>
+        <span class="window-dot"></span>
+        <span class="window-dot"></span>
+        <span class="filename">skills.json</span>
+      </div>
+      <div class="window-body skills-body">
+
+        <div class="skill-category">
+          <div class="skill-cat-head">
+            <span class="mono skill-cat-name">diller</span>
+            <span class="mono skill-cat-count">07</span>
+          </div>
+          <div class="skill-pills">
+            <span class="tech-badge">C</span>
+            <span class="tech-badge">C++</span>
+            <span class="tech-badge">C#</span>
+            <span class="tech-badge">Python</span>
+            <span class="tech-badge">Java</span>
+            <span class="tech-badge">JavaScript</span>
+            <span class="tech-badge">Dart</span>
+          </div>
+        </div>
+
+        <div class="skill-category">
+          <div class="skill-cat-head">
+            <span class="mono skill-cat-name">frameworkler &amp; web</span>
+            <span class="mono skill-cat-count">04</span>
+          </div>
+          <div class="skill-pills">
+            <span class="tech-badge">Flutter</span>
+            <span class="tech-badge">FastAPI</span>
+            <span class="tech-badge">Next.js</span>
+            <span class="tech-badge">Flet</span>
+          </div>
+        </div>
+
+        <div class="skill-category">
+          <div class="skill-cat-head">
+            <span class="mono skill-cat-name">veri &amp; yapay zeka</span>
+            <span class="mono skill-cat-count">04</span>
+          </div>
+          <div class="skill-pills">
+            <span class="tech-badge">YOLO</span>
+            <span class="tech-badge">Gemini AI</span>
+            <span class="tech-badge">OpenCV</span>
+            <span class="tech-badge">Google ML Kit</span>
+          </div>
+        </div>
+
+        <div class="skill-category">
+          <div class="skill-cat-head">
+            <span class="mono skill-cat-name">robotik &amp; simülasyon</span>
+            <span class="mono skill-cat-count">03</span>
+          </div>
+          <div class="skill-pills">
+            <span class="tech-badge">ROS 2</span>
+            <span class="tech-badge">Gazebo</span>
+            <span class="tech-badge">Unity</span>
+          </div>
+        </div>
+
+        <div class="skill-category">
+          <div class="skill-cat-head">
+            <span class="mono skill-cat-name">araçlar &amp; altyapı</span>
+            <span class="mono skill-cat-count">05</span>
+          </div>
+          <div class="skill-pills">
+            <span class="tech-badge">Docker</span>
+            <span class="tech-badge">Git</span>
+            <span class="tech-badge">PostgreSQL</span>
+            <span class="tech-badge">Linux</span>
+            <span class="tech-badge">CMake</span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <section id="experience">
+    <p class="section-label mono">03 / deneyim</p>
+    <h2 class="section-title">Deneyim</h2>
+
+    <div class="experience-list">
+
+      <div class="experience-card reveal">
+        <div class="experience-top">
+          <div class="experience-head">
+            <div class="project-icon">◉</div>
+            <div>
+              <h3>ULUTEK Yazılım Vadisi</h3>
+              <span class="experience-org">ULUTEK Teknopark — Yazılım Geliştirme Stajyeri</span>
+            </div>
+          </div>
+          <div class="experience-meta">Bursa, Türkiye<br>Yaz 2026 · 1 ay</div>
+        </div>
+        <p class="experience-desc">Bir aylık staj sürecinde hem teknik süreçleri yakından deneyimledim hem de bir proje ekibine liderlik etme fırsatı buldum.</p>
+        <div class="project-tags">
+          <span>Flutter</span>
+          <span>FastAPI</span>
+          <span>Gemini AI</span>
+          <span>OCR</span>
+        </div>
+      </div>
+
+      <div class="experience-card reveal">
+        <div class="experience-top">
+          <div class="experience-head">
+            <div class="project-icon">◆</div>
+            <div>
+              <h3>ULUNOM Otonom Araç Takımı</h3>
+              <span class="experience-org">Yazılım Ekibi — TEKNOFEST Robotaksi, Binek Otonom Araç (Hazır Araç Kategorisi)</span>
+            </div>
+          </div>
+        </div>
+        <p class="experience-desc">Geliştirdiğimiz yazılım mimarisiyle Kritik Tasarım Raporu (KTR) aşamasını başarıyla geçerek sunum değerlendirmesi aşamasına kadar ilerledik.</p>
+        <div class="project-tags">
+          <span>ROS 2</span>
+          <span>Gazebo</span>
+          <span>Sensör Füzyonu</span>
+        </div>
+      </div>
+
+      <div class="experience-card reveal">
+        <div class="experience-top">
+          <div class="experience-head">
+            <div class="project-icon">★</div>
+            <div>
+              <h3>ULUJAM</h3>
+              <span class="experience-org">Yönetim Kurulu Üyesi — Game Jam Organizasyonu</span>
+            </div>
+          </div>
+          <div class="experience-meta">2026</div>
+        </div>
+        <p class="experience-desc">Kapsamlı bir Game Jam etkinliğinin organizasyon süreçlerini yürüttüm.</p>
+        <div class="project-tags">
+          <span>Etkinlik Yönetimi</span>
+          <span>Organizasyon</span>
+        </div>
+      </div>
+
+      <div class="experience-card reveal">
+        <div class="experience-top">
+          <div class="experience-head">
+            <div class="project-icon">✎</div>
+            <div>
+              <h3>Bağımsız Projeler</h3>
+              <span class="experience-org">Mobil &amp; Web Geliştirici</span>
+            </div>
+          </div>
+        </div>
+        <p class="experience-desc">Flutter ve Dart ile API entegrasyonlu uygulamalar (Fatih Finans); Python, FastAPI, Flet ve PostgreSQL ile yapay zeka destekli tam yığın projeler (Ceng Fitness) geliştirdim.</p>
+        <div class="project-tags">
+          <span>Flutter</span>
+          <span>FastAPI</span>
+          <span>Python</span>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
   <section id="projects">
-    <p class="section-label mono">02 / projeler</p>
+    <p class="section-label mono">04 / projeler</p>
     <h2 class="section-title">Projeler</h2>
 
     <div class="projects-grid">
@@ -709,6 +1008,7 @@
             </a>
           </div>
         </div>
+        <span class="project-label mono">project_01 / ai destekli fitness</span>
         <h3>CENG FITNESS</h3>
         <p>Yemek fotoğrafını YOLO ile tanıyıp Gemini AI ile kalori/makro hesaplayan; egzersiz, kas gelişimi ve vücut ölçülerini takip eden AI destekli fitness uygulaması.</p>
         <div class="project-tags">
@@ -728,6 +1028,7 @@
             </a>
           </div>
         </div>
+        <span class="project-label mono">project_02 / self-hosted kanban</span>
         <h3>Cengello</h3>
         <p>Self-hosted bir Trello klonu — sürükle-bırak kanban panoları, checklist'ler ve canlı aktivite akışı. Docker Compose ile tek komutla ayağa kalkıyor.</p>
         <div class="project-tags">
@@ -746,6 +1047,7 @@
             </a>
           </div>
         </div>
+        <span class="project-label mono">project_03 / ağ trafiği ids</span>
         <h3>FalconIDS</h3>
         <p>C++17 ve libpcap ile yazılmış, ağ trafiğini dinleyip port taraması gibi şüpheli davranışları gerçek zamanlı tespit eden bir IDS/sniffer aracı.</p>
         <div class="project-tags">
@@ -764,6 +1066,7 @@
             </a>
           </div>
         </div>
+        <span class="project-label mono">project_04 / fiş tarama &amp; finans</span>
         <h3>EconBuddy <span class="mono" style="color:var(--text-dim); font-size:0.75rem; font-weight:400;">— Ulutek stajı</span></h3>
         <p>Ulutek'teki stajım sırasında geliştirdiğim; fiş fotoğrafını OCR + Gemini AI ile otomatik harcamaya çeviren kişisel finans ve grup harcama uygulaması.</p>
         <div class="project-tags">
@@ -776,9 +1079,89 @@
     </div>
   </section>
 
+  <section id="achievements">
+    <p class="section-label mono">05 / başarılar</p>
+    <h2 class="section-title">Başarılar</h2>
+
+    <div class="badges-grid">
+
+      <div class="badge-card reveal">
+        <div class="project-icon">▲</div>
+        <div>
+          <h3>KTR Aşamasını Geçme</h3>
+          <p class="badge-meta">ULUNOM — TEKNOFEST Robotaksi</p>
+          <span class="badge-tag">yarışma</span>
+        </div>
+      </div>
+
+      <div class="badge-card reveal">
+        <div class="project-icon">★</div>
+        <div>
+          <h3>Yönetim Kurulu Üyeliği</h3>
+          <p class="badge-meta">ULUJAM — 2026</p>
+          <span class="badge-tag">organizasyon</span>
+        </div>
+      </div>
+
+      <div class="badge-card reveal">
+        <div class="project-icon">◉</div>
+        <div>
+          <h3>Staj Tamamlama</h3>
+          <p class="badge-meta">ULUTEK Yazılım Vadisi — Yaz 2026</p>
+          <span class="badge-tag">staj</span>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <section id="services">
+    <p class="section-label mono">06 / ilgi alanlarım</p>
+    <h2 class="section-title">Ne Üzerinde Çalışıyorum</h2>
+
+    <div class="services-grid">
+
+      <div class="project-card reveal">
+        <div class="project-top"><div class="project-icon">▤</div></div>
+        <h3>Full-Stack Geliştirme</h3>
+        <p>Flutter, FastAPI ve Next.js ile uçtan uca, ölçeklenebilir web ve mobil uygulamalar geliştiriyorum.</p>
+        <div class="project-tags">
+          <span>Flutter</span>
+          <span>FastAPI</span>
+          <span>Next.js</span>
+        </div>
+      </div>
+
+      <div class="project-card reveal">
+        <div class="project-top"><div class="project-icon">●</div></div>
+        <h3>Yapay Zeka Entegrasyonu</h3>
+        <p>Gemini AI, YOLO ve OCR gibi modelleri gerçek ürünlere entegre ederek akıllı özellikler kazandırıyorum.</p>
+        <div class="project-tags">
+          <span>Gemini AI</span>
+          <span>YOLO</span>
+          <span>OCR</span>
+        </div>
+      </div>
+
+      <div class="project-card reveal">
+        <div class="project-top"><div class="project-icon">▲</div></div>
+        <h3>Otonom Sistemler &amp; Robotik</h3>
+        <p>ROS 2 ve Gazebo ile sensör füzyonu ve otonom araç yazılım mimarileri üzerine çalışıyorum.</p>
+        <div class="project-tags">
+          <span>ROS 2</span>
+          <span>Gazebo</span>
+          <span>C++</span>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
   <section id="contact">
-    <p class="section-label mono">03 / iletişim</p>
+    <p class="section-label mono">07 / iletişim</p>
+    <p class="prompt-line mono"><span class="accent">&gt;</span> SYSTEM.CONNECT()</p>
     <h2 class="section-title">İletişim</h2>
+    <p class="contact-lead">İşbirliğine ve yeni projelere açığım.</p>
 
     <div class="contact-list reveal">
       <a class="social-row" href="https://github.com/fatihsoyer9008" target="_blank" rel="noopener">
